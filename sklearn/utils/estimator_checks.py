@@ -1084,6 +1084,7 @@ def check_classifiers_train(name, Classifier):
         classes = np.unique(y)
         n_classes = len(classes)
         n_samples, n_features = X.shape
+        idx = np.random.randint(X.shape[0], size=X.shape[0] // 2)
         classifier = Classifier()
         if name in ['BernoulliNB', 'MultinomialNB']:
             X -= X.min()
@@ -1109,6 +1110,8 @@ def check_classifiers_train(name, Classifier):
             try:
                 # decision_function agrees with predict
                 decision = classifier.decision_function(X)
+                assert_array_equal(decision[idx],
+                                   classifier.decision_function(X[id]))
                 if n_classes is 2:
                     assert_equal(decision.shape, (n_samples,))
                     dec_pred = (decision.ravel() > 0).astype(np.int)
