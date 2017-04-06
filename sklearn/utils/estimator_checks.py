@@ -1111,7 +1111,7 @@ def check_classifiers_train(name, Classifier):
                 # decision_function agrees with predict
                 decision = classifier.decision_function(X)
                 assert_array_equal(decision[idx],
-                                   classifier.decision_function(X[id]))
+                                   classifier.decision_function(X[idx]))
                 if n_classes is 2:
                     assert_equal(decision.shape, (n_samples,))
                     dec_pred = (decision.ravel() > 0).astype(np.int)
