@@ -1134,6 +1134,8 @@ def check_classifiers_train(name, Classifier):
             y_prob = classifier.predict_proba(X)
             assert_equal(y_prob.shape, (n_samples, n_classes))
             assert_array_equal(np.argmax(y_prob, axis=1), y_pred)
+            assert_array_equal(decision[idx],
+                               classifier.predict_proba(X[idx]))
             # check that probas for all classes sum to one
             assert_array_almost_equal(np.sum(y_prob, axis=1),
                                       np.ones(n_samples))
