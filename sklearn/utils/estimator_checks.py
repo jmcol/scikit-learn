@@ -1326,6 +1326,9 @@ def check_regressors_train(name, Regressor):
     y_pred = regressor.predict(X)
     assert_equal(y_pred.shape, y_.shape)
 
+    idx = np.random.randint(X.shape[0], size=X.shape[0] // 2)
+    assert_array_equal(y_pred[idx], regressor.predict(X[idx]))
+
     # TODO: find out why PLS and CCA fail. RANSAC is random
     # and furthermore assumes the presence of outliers, hence
     # skipped
