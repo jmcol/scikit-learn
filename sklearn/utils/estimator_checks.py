@@ -1099,6 +1099,7 @@ def check_classifiers_train(name, Classifier):
         classifier.fit(X.tolist(), y.tolist())
         assert_true(hasattr(classifier, "classes_"))
         y_pred = classifier.predict(X)
+        assert_array_equal(y_pred[idx], classifier.predict(X[idx]))
         assert_equal(y_pred.shape, (n_samples,))
         # training set performance
         if name not in ['BernoulliNB', 'MultinomialNB']:
