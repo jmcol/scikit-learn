@@ -1099,6 +1099,7 @@ def check_classifiers_train(name, Classifier):
         classifier.fit(X.tolist(), y.tolist())
         assert_true(hasattr(classifier, "classes_"))
         y_pred = classifier.predict(X)
+        assert_array_equal(y_pred[idx], classifier.predict(X[idx]))
         assert_equal(y_pred.shape, (n_samples,))
         # training set performance
         if name not in ['BernoulliNB', 'MultinomialNB']:
@@ -1134,6 +1135,8 @@ def check_classifiers_train(name, Classifier):
             y_prob = classifier.predict_proba(X)
             assert_equal(y_prob.shape, (n_samples, n_classes))
             assert_array_equal(np.argmax(y_prob, axis=1), y_pred)
+            assert_array_equal(decision[idx],
+                               classifier.predict_proba(X[idx]))
             # check that probas for all classes sum to one
             assert_array_almost_equal(np.sum(y_prob, axis=1),
                                       np.ones(n_samples))
@@ -1323,6 +1326,9 @@ def check_regressors_train(name, Regressor):
     regressor.fit(X.tolist(), y_.tolist())
     y_pred = regressor.predict(X)
     assert_equal(y_pred.shape, y_.shape)
+
+    idx = np.random.randint(X.shape[0], size=X.shape[0] // 2)
+    assert_array_equal(y_pred[idx], regressor.predict(X[idx]))
 
     # TODO: find out why PLS and CCA fail. RANSAC is random
     # and furthermore assumes the presence of outliers, hence
