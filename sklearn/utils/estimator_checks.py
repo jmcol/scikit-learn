@@ -700,6 +700,9 @@ def _check_transformer(name, Transformer, X, y):
     set_random_state(transformer)
     set_testing_parameters(transformer)
 
+    idx = np.random.randint(X.shape[0], size=X.shape[0] // 2)
+    assert_array_equal(transformer.transform(X)[idx], transformer(X[idx]))
+
     # fit
 
     if name in CROSS_DECOMPOSITION:
